@@ -1,18 +1,6 @@
 //deterministico
 
-type automato = {
-  estados: string[];
-  alfabeto: string[];
-  transicoes: transicao[];
-  estadoInicial: string;
-  estadosFinais: string[];
-};
-
-type transicao = {
-  estadoAtual: string;
-  simbolo: string;
-  estadoDestino: string;
-};
+import { automato } from "./types";
 
 //definição formal do automato
 const inputA = {
@@ -43,7 +31,10 @@ const automatoB = {
 //string de entrada
 const inputB = "abb";
 
-export default function automatoNDeterministico(): boolean {
+export default function automatoNDeterministico(
+  auto: automato,
+  stringValidar: string
+): boolean {
   function getTransicoesPossiveis(
     automatoRecebido: automato,
     simbolo: string,
