@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ export default function Home() {
   const [numeroTransicoes, setNumeroTransicoes] = useState(1);
   const [estados, setEstados] = useState<string[]>([]);
   const [numeroEstados, setNumeroEstados] = useState(1);
+  const [mostrarResposta, setMostrarResposta] = useState(false);
+  const [resposta, setResposta] = useState(false);
 
   const numeroEstadosMapObject = new Array<number>();
   for (let i = 0; i < numeroEstados; i++) {
@@ -45,7 +47,8 @@ export default function Home() {
     };
     console.log("automato", automato);
    const res = automatoNDeterministico(automato, stringValidacao);
-    console.log("res", res);
+    setResposta(res);
+    setMostrarResposta(true);
   }
 
   return (
@@ -287,6 +290,13 @@ export default function Home() {
           Validar
         </Button>
       </Grid>
+      <Grid item xs={12}>
+        {mostrarResposta && (
+          <Typography variant="h5">
+            String {resposta ? "Aceita" : "Rejeitada"}
+          </Typography>
+        )}
+        </Grid>
     </Grid>
   );
 }

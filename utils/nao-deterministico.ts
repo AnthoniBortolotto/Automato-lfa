@@ -3,23 +3,6 @@
 import { automato } from "./types";
 
 //definição formal do automato
-const inputA = {
-  estados: ["q0", "q1", "q2", "q3"], //estados
-  alfabeto: ["a", "b"], // simbolos permitidos
-  transicoes: [
-    { estadoAtual: "q0", simbolo: "a", estadoDestino: "q1" },
-    { estadoAtual: "q0", simbolo: "b", estadoDestino: "q2" },
-    { estadoAtual: "q0", simbolo: "b", estadoDestino: "q3" },
-    { estadoAtual: "q1", simbolo: "a", estadoDestino: "q1" },
-    { estadoAtual: "q1", simbolo: "b", estadoDestino: "q3" },
-    { estadoAtual: "q2", simbolo: "a", estadoDestino: "q1" },
-    { estadoAtual: "q2", simbolo: "b", estadoDestino: "q2" },
-    { estadoAtual: "q3", simbolo: "a", estadoDestino: "q3" },
-    { estadoAtual: "q3", simbolo: "b", estadoDestino: "q3" },
-  ],
-  estadoInicial: "q0", // estado onde começa a leitura
-  estadosFinais: ["q3"], //estados onde é aceito finalizar a string
-};
 
 const automatoB = {
   estados: ["q0", "q1", "q2", "q3"], //estados
@@ -29,12 +12,13 @@ const automatoB = {
   estadosFinais: ["q3"],
 };
 //string de entrada
-const inputB = "abb";
 
 export default function automatoNDeterministico(
   auto: automato,
   stringValidar: string
 ): boolean {
+  const inputA = auto;
+  const inputB = stringValidar;
   function getTransicoesPossiveis(
     automatoRecebido: automato,
     simbolo: string,
@@ -42,7 +26,10 @@ export default function automatoNDeterministico(
   ) {
     return automatoRecebido.transicoes.filter(
       (transicao) =>
-        transicao.estadoAtual === estadoAtual && transicao.simbolo === simbolo
+        transicao.estadoAtual === estadoAtual &&
+        (transicao.simbolo === simbolo ||
+          (!automatoRecebido.alfabeto.includes(transicao.simbolo) &&
+            !automatoRecebido.alfabeto.includes(simbolo)))
     );
   }
 
@@ -75,7 +62,6 @@ export default function automatoNDeterministico(
         simbolo,
         estadoAtual
       );
-      //   console.log(transicoesPossiveis);
       if (transicoesPossiveis.length === 0) return false;
       const respostas = new Array<boolean>();
       transicoesPossiveis.forEach((transicao) => {
@@ -91,7 +77,6 @@ export default function automatoNDeterministico(
         verdadeiraResposta = respostas;
         console.log("res: ", estadoAtual, ": ", respostas);
       }
-      //   estadoAtual = transicoesPossiveis[0].estadoDestino;
     }
     return automatoRecebido.estadosFinais.includes(estadoAtual);
   }
