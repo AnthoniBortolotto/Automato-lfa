@@ -52,6 +52,7 @@ export default function automatoNDeterministico(
     stringDeEntrada: string,
     estadoInicial?: string
   ): boolean {
+    //if(!estadoInicial) debugger;
     let estadoAtual = estadoInicial || automatoRecebido.estadoInicial;
     for (let i = 0; i < stringDeEntrada.length; i++) {
       //  console.log("estado atual: ", estadoAtual);
@@ -62,7 +63,9 @@ export default function automatoNDeterministico(
         simbolo,
         estadoAtual
       );
-      if (transicoesPossiveis.length === 0) return false;
+      if (transicoesPossiveis.length === 0) {
+        return false;
+      }
       const respostas = new Array<boolean>();
       transicoesPossiveis.forEach((transicao) => {
         respostas.push(
@@ -73,7 +76,7 @@ export default function automatoNDeterministico(
           )
         );
       });
-      if (!estadoInicial && i === stringDeEntrada.length - 1) {
+      if (stringDeEntrada.length === 1) {
         verdadeiraResposta = respostas;
         console.log("res: ", estadoAtual, ": ", respostas);
       }
