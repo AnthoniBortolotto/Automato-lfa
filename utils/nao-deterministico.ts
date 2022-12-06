@@ -28,7 +28,8 @@ export default function automatoNDeterministico(
       (transicao) =>
         transicao.estadoAtual === estadoAtual &&
         (transicao.simbolo === simbolo ||
-          (!automatoRecebido.alfabeto.includes(transicao.simbolo) &&
+          ((!automatoRecebido.alfabeto.includes(transicao.simbolo) ||
+            transicao.simbolo === "") &&
             !automatoRecebido.alfabeto.includes(simbolo)))
     );
   }
